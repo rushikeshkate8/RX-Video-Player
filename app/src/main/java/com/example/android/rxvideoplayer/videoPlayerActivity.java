@@ -6,6 +6,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.MediaController;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 public class videoPlayerActivity extends AppCompatActivity {
@@ -38,8 +39,19 @@ public class videoPlayerActivity extends AppCompatActivity {
         videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
-                videoView.setVideoPath(String.valueOf(MainActivity.fileArrayList.get(position = position + 1)));
-                videoView.start();
+                //videoView.setVideoPath(String.valueOf(MainActivity.fileArrayList.get(position = position + 1)));
+                //videoView.start();
+                videoView.stopPlayback();
+
+            }
+        });
+        videoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(MediaPlayer mp, int what, int extra) {
+                videoView.stopPlayback();
+                Toast.makeText(getApplicationContext(),"Oops An Error Occur While Playing Video...!", Toast.LENGTH_SHORT).show();
+// do something when an error is occur during the video playback
+                return false;
             }
         });
     }
