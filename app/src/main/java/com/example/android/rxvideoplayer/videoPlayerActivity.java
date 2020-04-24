@@ -3,6 +3,7 @@ package com.example.android.rxvideoplayer;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.MediaController;
@@ -28,7 +29,10 @@ public class videoPlayerActivity extends AppCompatActivity {
         MediaController mediaController = new MediaController(this);
         mediaController.setAnchorView(videoView);
         videoView.setMediaController(mediaController);
-        videoView.setVideoPath(String.valueOf(MainActivity.fileArrayList.get(position)));
+        if(position != -1)
+          videoView.setVideoPath(String.valueOf(MainActivity.fileArrayList.get(position)));
+        else
+            setPath();
         videoView.requestFocus();
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
@@ -60,5 +64,9 @@ public class videoPlayerActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         videoView.stopPlayback();
+    }
+    public void setPath() {
+        Uri file =  getIntent().getData();
+        videoView.setVideoURI(file);
     }
 }
